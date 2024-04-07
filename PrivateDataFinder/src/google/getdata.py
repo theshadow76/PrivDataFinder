@@ -8,7 +8,7 @@ class SearchData:
         query = prompt
         data = []
         
-        for j in search(query, num=100):
+        for j in search(query):
             print(f"Extracting {j} | Google Search")
             data.append(j)
         return data
