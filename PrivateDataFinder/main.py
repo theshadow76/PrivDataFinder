@@ -113,7 +113,17 @@ def main():
                     with open("validations.txt", "a") as f:
                         f.write(f"{str(validation_results)}\n")
                 else:
-                    print("No match")
+                    print("No match | searching for AWS creds now")
+                    pattern = re.compile(r"AWS_(ACCESS_KEY_ID|SECRET_ACCESS_KEY)=([A-Z0-9+/]{20}|[A-Za-z0-9/+=]{40})")
+                    text = None
+                    with open("TEMP-github-data.txt", "r", encoding="utf8") as f:
+                        text = f.read()
+                    for line in text.splitlines():
+                        match = pattern.search(line)
+                        if match:
+                            key_type = match.group(1)
+                            key_value = match.group(2)
+                            print(f"Pothential key! | Type={key_type} | Value={key_value}") 
             except Exception as e:
                 print(f"Something went wrong in regex: {e}")
         except Exception as e:
