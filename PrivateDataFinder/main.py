@@ -10,5 +10,17 @@ parser = argparse.ArgumentParser(
     epilog="END"
 )
 
-googlesearch = SearchData()
-print(googlesearch.Search("BTC"))
+parser.add_argument("--searchgoogle")
+
+args = parser.parse_args()
+
+def main():
+    searchgoogle = args.searchgoogle
+    if searchgoogle == "true":
+        googlesearch = SearchData()
+        print(googlesearch.Search("BTC"))
+    else:
+        print("You need to select a option")
+
+if __name__ == '__main__':
+    main()
