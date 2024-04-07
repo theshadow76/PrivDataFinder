@@ -75,10 +75,49 @@ def main():
             else:
                 print(f"Something went wrong: {e}")
     elif searchgithub:
+        links = []
         try:
-            print(SearchGitgub(token=ghtoken, query=ghquery))
+            resulsts = SearchGitgub(token=ghtoken, query=ghquery)['items']
+            for result in resulsts:
+                links.append(result['html_url'])
+            extract = Extract()
+            extract.GetData(websites=links, isgithub=True)
+            try:
+                ### REGEX ###
+                validation_results = {}
+                data_to_check = None
+                regex3 = None
+                try:
+                    with open("TEMP-github-data.txt", "r", encoding="utf8") as f:
+                        data_to_check = f.read()
+                except Exception as e:
+                    print(f"Something happend opening the github file: {e}")
+                try:
+                    with open(regex, "r", encoding="utf8") as f:
+                        regex3 = json.load(f)
+                except Exception as e:
+                    print(f"Something happened opening regex: {e}")
+                try:
+                    data3 = data_to_check.split("\n")
+                except Exception as e:
+                    print(f"Something happened spliting: {e}")
+                for key, regex in regex3.items():
+                    for data2 in data3:
+                        try:
+                            match = re.search(regex, str(data2))  # Check if key exists
+                            validation_results[key] = bool(match)
+                            print(f"{key} | {validation_results[key]}")
+                        except Exception as e:
+                            print(f"Something went wrong trying to validate: {e}")
+                if "True" in validation_results:
+                    with open("validations.txt", "a") as f:
+                        f.write(f"{str(validation_results)}\n")
+                else:
+                    print("No match")
+            except Exception as e:
+                print(f"Something went wrong in regex: {e}")
         except Exception as e:
-            print(e)
+            print(f"Something went wrong in githubsearch: {e}")
     else:
         print("You need to select a option")
 
