@@ -3,6 +3,7 @@ from rich.pretty import pprint as print
 
 # locals
 from src.google.getdata import SearchData
+from src.extract.getwebsitesdata import Extract
 
 parser = argparse.ArgumentParser(
     prog="Private Data Finder",
@@ -18,7 +19,9 @@ def main():
     searchgoogle = args.searchgoogle
     if searchgoogle == "true":
         googlesearch = SearchData()
-        print(googlesearch.Search("BTC"))
+        extract = Extract()
+        data = googlesearch.Search("BTC")
+        extract.GetData(data)
     else:
         print("You need to select a option")
 
