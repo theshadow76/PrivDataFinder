@@ -9,6 +9,4 @@ class SearchData:
         data = []
         
         for j in search(query, num=100):
-            print(f"Extracting {j} | Google Search")
-            data.append(j)
-        return data
+            print(f"Extracting {j} | Google Se
